@@ -1,0 +1,21 @@
+//variables
+$fontColorPrimary: #ffffff;
+$backgroundColorPrimary: #242424;
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    height: 100%;  
+    background-color: $backgroundColorPrimary;   
+}
+
+body {
+    height: 100%;
+    font: 120%/170% 'Roboto', sans-serif;
+    color: $fontColorPrimary;
+    -webkit-font-smoothing: antialiased;
+    text-align: center;
+}

@@ -1,0 +1,16 @@
+{
+  "name": "speedtest",
+  "version": "1.0.0",
+  "description": "Simple application for client bandwidth testing",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Juraj Rolko",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.5.7",
+    "express": "^4.15.4"
+  }
+}
