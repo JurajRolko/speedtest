@@ -1,7 +1,8 @@
 // is mozilla WebSocket condition still necessary?
 window.WebSocket = window.WebSocket || window.MozWebSocket;
 
-var connection = new WebSocket('ws://localhost:3000');
+//var connection = new WebSocket('ws://localhost:3000');
+var connection = new WebSocket('ws://desolate-beach-95540.herokuapp.com');
 
 var blobData = null;
 
