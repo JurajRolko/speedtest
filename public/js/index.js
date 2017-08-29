@@ -2,7 +2,7 @@
 window.WebSocket = window.WebSocket || window.MozWebSocket;
 
 //var connection = new WebSocket('ws://localhost:3000');
-var connection = new WebSocket('ws://desolate-beach-95540.herokuapp.com');
+var connection = new WebSocket('wss://desolate-beach-95540.herokuapp.com');
 
 var blobData = null;
 
