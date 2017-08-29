@@ -19,3 +19,77 @@ body {
     -webkit-font-smoothing: antialiased;
     text-align: center;
 }
+
+header{
+    margin-top: 2em;
+    h1{
+        margin-bottom: 0.25em;
+    }
+}
+
+footer{
+    margin-top: 2em;
+}
+
+.test-button-container{
+    padding: 2em;
+}
+
+#startTest{
+    font-size: 1.5em;   
+    letter-spacing: 2px; 
+    padding: 0.25em 1em;
+    background: none;    
+    border: 2px solid #4CAF50;
+    color: #4CAF50; 
+     
+    &:hover{
+        background-color: #4CAF50;
+        color: #ffffff;
+        cursor: pointer;
+    }
+}
+
+ul{
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    width: 100%;
+    li{
+        flex: 1; 
+    }
+}
+
+main{
+    max-width: 600px;
+    margin: auto;
+}
+
+section.test-progress{    
+    padding: 1em;   
+    border-top: 2px solid #242424; 
+    i{
+        vertical-align: middle;
+    }
+    input{
+        border: none;
+        background: none;
+        font-size: 200%;
+        color: #ffffff;
+        width: 90%;
+        text-align: center;
+        margin-top: 0.25em;
+    }    
+}
+section.test-progress.active {
+    border-color: #ffffff;
+}
+#latency{
+    background-color: #e91e63;
+}
+#download{
+    background-color: #00bcd4;
+}
+#upload{
+    background-color: #009688;
+}

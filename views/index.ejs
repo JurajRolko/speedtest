@@ -3,7 +3,7 @@
 
 <head>
     <% include partials/head.ejs %>
-    <link rel="stylesheet" href="public/css/styles.css">
+        <link rel="stylesheet" href="public/css/styles.css">
 </head>
 
 <body>
@@ -13,13 +13,43 @@
         <p>Simple application for client bandwidth testing</p>
     </header>
 
-    <section class="testing">
-        <button>start test</button>
-    </section>
+    <main>
+        <section class="testing">
+            <div class="test-button-container">
+                <button id="startTest">test my connection</button>
+            </div>
+            <ul>
+                <li>
+                    <section class="test-progress" id="latency">
+                        <h3><i class="material-icons">swap_horiz</i><br />Ping</h3>
+                        <input type="text" id="input-latency" value="0" readonly/><br />
+                        ms
+                    </section>
+                </li>
+                <li>
+                    <section class="test-progress" id="download">
+                        <h3><i class="material-icons">file_download</i><br />Download</h3>
+                        <input type="text" id="input-download" value="0.00" readonly/><br />
+                        Mbps
+                    </section>
+                </li>
+                <li>
+                    <section class="test-progress" id="upload">
+                        <h3><i class="material-icons">file_upload</i><br />Upload</h3>
+                        <input type="text" id="input-upload" value="0.00" readonly/><br />
+                        Mbps
+                    </section>
+                </li>
+            </ul>
+        </section>
+    </main>
 
     <footer>
-        Speedtest - <%= copyrightYear %>
-    </footer>    
+        Speedtest -
+        <%= copyrightYear %>
+    </footer>
+
+    <script src="/public/js/index.js"></script>
 </body>
 
 </html>
