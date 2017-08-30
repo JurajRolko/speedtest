@@ -42,6 +42,17 @@ app.get('/', (req, res) => {
 });
 
 
+//attempt to change headers 
+// server.on('upgrade', (req, socket, head) => {
+//     socket.write('HTTP/1.1 101 Web Socket Protocol Handshake\r\n' +
+//         'Upgrade: WebSocket\r\n' +
+//         'Connection: Upgrade\r\n' +
+//         '\r\n');
+
+//     socket.pipe(socket); // echo back
+// });
+
+
 // WebSocket server
 wsServer.on('request', (request) => {
     // if ( ! create_custom_function_to_check_orogin(request.origin) ){
@@ -50,12 +61,14 @@ wsServer.on('request', (request) => {
     // }
 
     let connection = request.accept(null, request.origin);
+    //console.log(connection); //console object contains many useful informations?
     connectionsList.addConnection(connection);
     console.log(`New user connected. Active connections: ${connectionsList.getAll().length} `);
 
     // This is the most important callback for us, we'll handle
     // all messages from users here.
     connection.on('message', function (message) {
+        //console.log(message);
         // console.log(`server message event fired. connection: ${this.uuid}`);        
         let uuidConnection = this.uuid;
 
@@ -71,7 +84,7 @@ wsServer.on('request', (request) => {
         } else if ((message.type === 'utf8') && (message.utf8Data === 'download-test-initiate')) {
             //start download test
             //generate random data - alternative is to use existing data
-            crypto.randomBytes(1024 * 1024, (err, buf) => {
+            crypto.randomBytes(32768, (err, buf) => {
                 if (err) throw err;
                 //console.log(`${buf.length} bytes of random data: ${buf.toString('hex')}`);                
                 connectionsList.downloadTestInitialize(uuidConnection);
@@ -92,7 +105,7 @@ wsServer.on('request', (request) => {
                     }
                 ));
                 //generate random data - alternative is to use existing data
-                crypto.randomBytes(1024 * 1024, (err, buf) => {
+                crypto.randomBytes(32768, (err, buf) => {
                     if (err) throw err;
                     connection.send(buf);
                 });
@@ -120,9 +133,8 @@ wsServer.on('request', (request) => {
                     uploadCounter: uploadTestResult.uploadCounter
                 }
             ));
-        } else {
-            //console.log(message.type);
-            //console.log('received: ', message);
+        } else if (message.type === 'binary') {
+            //if message type binary we are receiving uploading data from client
             let uploadTestProgress = connectionsList.uploadTestProgress(uuidConnection);
             if (uploadTestProgress === true) {
                 //we are sending partial results for every iteration            

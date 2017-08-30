@@ -4,7 +4,16 @@ window.WebSocket = window.WebSocket || window.MozWebSocket;
 //var connection = new WebSocket('ws://localhost:3000');
 var connection = new WebSocket('wss://desolate-beach-95540.herokuapp.com');
 
-var blobData = null;
+function generateRandomData(){
+    var data = [];
+    for (var i=0; i<32768; i++){
+        data.push(Math.floor(Math.random() * 256));    
+    }
+    return data;
+}
+var byteArray = new Uint8Array(generateRandomData());
+//console.log(byteArray.byteLength);
+//console.log(byteArray.length);
 
 connection.onopen = function (event) {
     // connection is opened 
@@ -35,20 +44,26 @@ connection.onmessage = function (event) {
             document.getElementById("startTest").innerHTML = 'testing download';
         //finished 1 iteration of download test    
         } else if (json.action == 'download-test-progress-step-done'){            
-            var hlpDownloadSpeed = Math.round( ( (parseInt(json.downloadCounter)*1024*1024*8*0.000001) / (parseInt(json.downloadTotalTime)*0.000000001) )*100)/100;             
+            var hlpDownloadSpeed = Math.round( ( (parseInt(json.downloadCounter)*32768*8*0.000001) / (parseInt(json.downloadTotalTime)*0.000000001) )*100)/100;             
             document.getElementById("input-download").value = hlpDownloadSpeed.toFixed(2).toString();            
         } else if (json.action == 'download-test-done'){
             //send message to initiate upload test
-            connection.send('upload-test-initiate');
+            connection.send('upload-test-initiate');            
             document.getElementById("startTest").innerHTML = 'testing upload';            
         } else if (json.action == 'upload-test-progress-step-done'){  
-            console.log(json);
+            //console.log(json);
             if ( parseInt(json.uploadTotalTime) <= 0) {
-                connection.send(JSON.stringify(blobData));  
+                //connection.send(JSON.stringify(blobData));     
+                byteArray = new Uint8Array(generateRandomData());
+                connection.binaryType = 'arraybuffer';             
+                connection.send(byteArray.buffer);
                 document.getElementById("input-upload").value = '0.00';  
             } else {
-                connection.send(JSON.stringify(blobData));    
-                var hlpUploadSpeed = Math.round( ( (parseInt(json.uploadCounter)*1024*1024*8*0.000001) / (parseInt(json.uploadTotalTime)*0.000000001) )*100)/100;              
+                //connection.send(JSON.stringify(blobData));  
+                byteArray = new Uint8Array(generateRandomData());
+                connection.binaryType = 'arraybuffer';  
+                connection.send(byteArray.buffer);
+                var hlpUploadSpeed = Math.round( ( (parseInt(json.uploadCounter)*32768*8*0.000001) / (parseInt(json.uploadTotalTime)*0.000000001) )*100)/100;              
                 document.getElementById("input-upload").value = hlpUploadSpeed.toFixed(2).toString();            
             }      
         } else if (json.action == 'upload-test-done'){            
@@ -56,11 +71,12 @@ connection.onmessage = function (event) {
         }
     } catch (e) {
         //possible blob data
-        if (event.data.size > 1024){            
+        if (event.data.size > 1024){     
+            //console.log(event.data.size)       ;
             connection.send('download-test-progress');
-            if (! blobData) {
-                blobData = event.data;
-            }
+            // if (! blobData) {
+            //     blobData = event.data;
+            // }
         } else {
             console.log('Invalid data ', event.data);
             return;

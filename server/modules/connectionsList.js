@@ -10,8 +10,8 @@ class ConnectionsList {
         this.connections = [];
         //hardcoded value for ping iterations count
         this.pingTestCounterMax = 20;  
-        this.donwloadTestCounterMax = 20;      
-        this.uploadTestCounterMax = 20; 
+        this.donwloadTestCounterMax = 200;      
+        this.uploadTestCounterMax = 200;  //transfering 32K data per frame - default sliding window size is 2^15? 
     };
     //add new connection
     addConnection(connection) {
